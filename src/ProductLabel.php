@@ -2,6 +2,7 @@
 
 namespace RevoSystems\ProductLabel;
 
+use Barryvdh\Snappy\Facades\SnappyPdf;
 use Dompdf\Dompdf;
 
 class ProductLabel {
@@ -20,11 +21,7 @@ class ProductLabel {
 
     public function pdf($values = [], $times = 1, $skip = 0) {
         $html = $this->render($values, $times, $skip);
-        $pdf = new Dompdf();
-        $pdf->loadHtml($html);
-        $pdf->setPaper('A4', 'landscape');
-        $pdf->render();
-        $pdf->stream();
+        SnappyPdf::loadView($html);
     }
 
     public function render($values = [], $times = 1, $skip = 0) {
