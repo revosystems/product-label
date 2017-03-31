@@ -11,7 +11,7 @@ class ProductLabel {
     private $mCurrentX;
     private $mCurrentY;
 
-    public function render($json, $values, $times = 1, $skip = 0) {
+    public function render($json, $values = [], $times = 1, $skip = 0) {
 	    $this->json   = $json;
 	    $this->values = $values;
 
@@ -19,10 +19,10 @@ class ProductLabel {
 	    $this->mCurrentY   = 0;
 	    $final = $this->getHtmlHeader();
 	    $times += $skip;
-    
-	    for($i = 0; $i < $times; $i++) {
-        	if ($skip <= $i) {
-	        	$final .= "<div style='" . $this->getBoxSizeStyle() . " outline:1px solid black;'>" . $this->getObjects() . "</div>";
+
+        for($i = 0; $i < $times; $i++) {
+            if ($skip <= $i) {
+                $final .= "<div style='" . $this->getBoxSizeStyle() . " outline:1px solid black;'>" . $this->getObjects() . "</div>";
 //	        	$final .= "<div style='" . $this.getBoxSizeStyle() . "'>" . $this.getObjects() . "</div>";
 	        }
         	$this->calculateNextLabelPosition();
@@ -32,10 +32,7 @@ class ProductLabel {
 
     public function getHtmlHeader() {
         return "<html><head><style>@page{size:A4;margin:0;}@media print{html,body{width:"
-            .static::PAPER_WIDTH
-            .";height:"
-            .static::PAPER_HEIGHT.
-            "mm;}}</style><head></head><body>";
+            . static::PAPER_WIDTH . ";height:" . static::PAPER_HEIGHT . "mm;}}</style><head></head><body>";
 	}
 
     public function getBoxSizeStyle() {
@@ -64,7 +61,7 @@ class ProductLabel {
 
     public function getObjects() {
         return array_reduce($this->json["objects"], function ($carry, $object) {
-            return "{$carry}{$this->getObject($object)}";
+            return "{$carry}{$this->getObject((array) $object)}";
         }, $carry = "");
     }
 

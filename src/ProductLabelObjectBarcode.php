@@ -3,6 +3,8 @@
 namespace RevoSystems\ProductLabel;
 
 
+use Picqer\Barcode\BarcodeGeneratorPNG;
+
 class ProductLabelObjectBarcode extends ProductLabelObjectText {
 
     public function getBody() {
@@ -10,8 +12,8 @@ class ProductLabelObjectBarcode extends ProductLabelObjectText {
     }
 
     public function getBarcode($text) {
-        $barcodeImage = (new Picqer\Barcode\BarcodeGeneratorPNG())->getBarcode(
-            $text, $generator::TYPE_CODE_39, $this->json["width"], $this->json["height"]);  // widthFactor, totalHeight
+        $barcodeImage = (new BarcodeGeneratorPNG())->getBarcode(
+            $text, BarcodeGeneratorPNG::TYPE_CODE_39, $this->json["width"], $this->json["height"]);  // widthFactor, totalHeight
         return "<img src='data:image/png;base64,{$barcodeImage}'><br>";
 
     }

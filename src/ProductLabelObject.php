@@ -19,7 +19,7 @@ class ProductLabelObject {
     }
     // ABSTRACT METHODS //
     public function getBoxStyle() {
-        return "{$this->getBoxSize} {$this->getStyle}";
+        return "{$this->getBoxSize()} {$this->getStyle()}";
 
     }
 
