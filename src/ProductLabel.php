@@ -2,7 +2,7 @@
 
 namespace RevoSystems\ProductLabel;
 
-use PDF;
+use Barryvdh\Snappy\Facades\SnappyPdf;
 
 class ProductLabel {
     const PAPER_WIDTH = 210.0;
@@ -20,36 +20,36 @@ class ProductLabel {
 
     public function pdf($values = [], $times = 1, $skip = 0) {
         $html = $this->render($values, $times, $skip);
-        PDF::loadHtml($html)->setPaper('a4')->setOrientation('landscape')->setOption('margin-bottom', 0); //->save('myLabel.pdf');
+        SnappyPdf::loadHtml($html)->setPaper('a4')->setOrientation('landscape')->setOption('margin-bottom', 0); //->save('myLabel.pdf');
     }
 
     public function render($values = [], $times = 1, $skip = 0) {
-	    $this->values = $values;
+        $this->values = $values;
 
-	    $this->mCurrentX   = 0;
-	    $this->mCurrentY   = 0;
-	    $final = $this->getHtmlHeader();
-	    $times += $skip;
+        $this->mCurrentX   = 0;
+        $this->mCurrentY   = 0;
+        $final = $this->getHtmlHeader();
+        $times += $skip;
 
         for($i = 0; $i < $times; $i++) {
             if ($skip <= $i) {
                 $final .= "<div style='" . $this->getBoxSizeStyle() . " outline:1px solid black;'>" . $this->getObjects() . "</div>";
 //	        	$final .= "<div style='" . $this.getBoxSizeStyle() . "'>" . $this.getObjects() . "</div>";
-	        }
-        	$this->calculateNextLabelPosition();
-	    }
-	    return "{$final}</body></html>";
-	}
+            }
+            $this->calculateNextLabelPosition();
+        }
+        return "{$final}</body></html>";
+    }
 
     public function getHtmlHeader() {
         return "<html><head><style>@page{size:A4;margin:0;}@media print{html,body{width:"
             . static::PAPER_WIDTH . ";height:" . static::PAPER_HEIGHT . "mm;}}</style><head></head><body>";
-	}
+    }
 
     public function getBoxSizeStyle() {
         $boxSizes = $this->getBoxSizes();
         return "position: absolute; left: {$this->mCurrentX}mm; top: {$this->mCurrentY}mm; width: {$boxSizes["width"]}mm; height: {$boxSizes["height"]}mm;";
-	}
+    }
 
     public function getBoxSizes() {
         $paper =  $this->papers()[$this->json["paper"]];
@@ -60,7 +60,7 @@ class ProductLabel {
             return ["width"=> $height, "height"=> $width];
         }
         return ["width" => $width, "height" => $height];
-	}
+    }
 
     public function papers() {
         return [
@@ -68,7 +68,7 @@ class ProductLabel {
             "1284"  => ["width" => 53.0,    "height" => 20.96 ],  //52.5 21.2
             "1286"  => ["width" => 53.0,    "height" => 29.34 ],  //52.5 29.7
         ];
-	}
+    }
 
     public function getObjects() {
         return array_reduce($this->json["objects"], function ($carry, $object) {
