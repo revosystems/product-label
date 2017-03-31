@@ -20,7 +20,10 @@ class ProductLabel {
 
     public function pdf($values = [], $times = 1, $skip = 0) {
         $html = $this->render($values, $times, $skip);
-        SnappyPdf::loadHtml($html)->setPaper('a4')->setOrientation('landscape')
+        SnappyPdf::loadHtml($html)
+            ->setPaper('a4')
+//            ->setOrientation('landscape')
+            ->setOrientation('portrait')
             ->setOption('page-width', '210')
             ->setOption('margin-top', 0)->setOption('margin-bottom', 0)
             ->setOption('margin-left', 0)->setOption('margin-right', 0)
