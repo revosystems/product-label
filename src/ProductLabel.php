@@ -20,7 +20,12 @@ class ProductLabel {
 
     public function pdf($values = [], $times = 1, $skip = 0) {
         $html = $this->render($values, $times, $skip);
-        SnappyPdf::loadHtml($html)->setPaper('a4')->setOrientation('landscape')->setOption('margin-bottom', 0); //->save('myLabel.pdf');
+        SnappyPdf::loadHtml($html)->setPaper('a4')->setOrientation('landscape')
+            ->setOption('page-width', '210')
+            ->setOption('margin-top', 0)->setOption('margin-bottom', 0)
+            ->setOption('margin-left', 0)->setOption('margin-right', 0)
+            ->save(uniqid()."myLabel1.pdf");
+//        SnappyPdf::loadHtml($html)->setPaper('a4')->setOrientation('landscape')->setOption('margin-bottom', 0)->save(uniqid().'myLabel1.pdf');
     }
 
     public function render($values = [], $times = 1, $skip = 0) {
@@ -42,8 +47,9 @@ class ProductLabel {
     }
 
     public function getHtmlHeader() {
-        return "<html><head><style>@page{size:A4;margin:0;}@media print{html,body{width:"
-            . static::PAPER_WIDTH . ";height:" . static::PAPER_HEIGHT . "mm;}}</style><head></head><body>";
+        return "<html><head><style>
+                @page{size:A4;margin:0;}@media print{html,body{width:" . static::PAPER_WIDTH . ";height:". static::PAPER_HEIGHT. "mm;}}
+                </style><head></head><body style='width: ". static::PAPER_WIDTH ."mm'>";
     }
 
     public function getBoxSizeStyle() {
@@ -65,7 +71,8 @@ class ProductLabel {
     public function papers() {
         return [
             "1274"  => ["width" => 106.0,   "height" => 36.68 ],  //105  37.0
-            "1284"  => ["width" => 53.0,    "height" => 20.96 ],  //52.5 21.2
+            "1284"  => ["width" => 53.0,    "height" => 20.53 ],  //52.5 21.2
+//            "1284"  => ["width" => 53.0,    "height" => 20.96 ],  //52.5 21.2
             "1286"  => ["width" => 53.0,    "height" => 29.34 ],  //52.5 29.7
         ];
     }
