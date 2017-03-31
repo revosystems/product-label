@@ -4,8 +4,10 @@ namespace RevoSystems\ProductLabel;
 
 
 class ProductLabelObject {
+
     public $json;
     public $values;
+    
     public function render($json, $values) {
         $this->json   = $json;
         $this->values = $values;

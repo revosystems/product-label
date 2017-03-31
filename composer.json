@@ -14,5 +14,7 @@
         }
     },
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "picqer/php-barcode-generator": "^0.2.1"
+    }
 }

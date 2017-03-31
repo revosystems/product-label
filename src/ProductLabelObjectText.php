@@ -4,6 +4,7 @@ namespace RevoSystems\ProductLabel;
 
 
 class ProductLabelObjectText extends ProductLabelObject {
+
     public function getBody() {
         return $this->json["text"];
     }
@@ -25,14 +26,14 @@ class ProductLabelObjectText extends ProductLabelObject {
     }
 
     public function getFontFamily() {
-        if ($this->json["fontFamily"]) {
+        if ( $this->json["fontFamily"] ) {
             return $this->json["fontFamily"];
         }
         return "Arial";
     }
 
     public function getFontSize() {
-        if ($this->json["fontSize"]) {
+        if ( $this->json["fontSize"] ) {
             return $this->json["fontSize"];
         }
         return "12px";
