@@ -11,8 +11,13 @@ class ProductLabel {
     private $mCurrentX;
     private $mCurrentY;
 
-    public function render($json, $values = [], $times = 1, $skip = 0) {
-	    $this->json   = $json;
+    public static function make($param) {
+        $productLabel = new ProductLabel();
+        $productLabel->json = $param;
+        return $productLabel;
+    }
+
+    public function render($values = [], $times = 1, $skip = 0) {
 	    $this->values = $values;
 
 	    $this->mCurrentX   = 0;
@@ -45,7 +50,7 @@ class ProductLabel {
         $height = $paper["height"];
         $width  = $paper["width"];
 
-        if ([$this->json["orientation"]  == "Portrait"]) {
+        if ($this->json["orientation"]  == "Portrait") {
             return ["width"=> $height, "height"=> $width];
         }
         return ["width" => $width, "height" => $height];
