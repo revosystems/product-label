@@ -6,6 +6,6 @@ namespace RevoSystems\ProductLabel;
 class ProductLabelObjectValue extends ProductLabelObjectText {
     
     public function getBody() {
-        return $this->json[$this->json["valueId"]];
+        return $this->values[$this->json["valueId"]];
     }
 }

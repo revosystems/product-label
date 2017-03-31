@@ -3,7 +3,9 @@
 namespace RevoSystems\ProductLabel;
 
 
+use Picqer\Barcode\BarcodeGeneratorJPG;
 use Picqer\Barcode\BarcodeGeneratorPNG;
+use Picqer\Barcode\BarcodeGeneratorHTML;
 
 class ProductLabelObjectBarcode extends ProductLabelObjectText {
 
@@ -13,7 +15,7 @@ class ProductLabelObjectBarcode extends ProductLabelObjectText {
 
     public function getBarcode($text) {
         $barcodeImage = (new BarcodeGeneratorPNG())->getBarcode(
-            $text, BarcodeGeneratorPNG::TYPE_CODE_39, $this->json["width"], $this->json["height"]);  // widthFactor, totalHeight
+            $text, BarcodeGeneratorPNG::TYPE_CODE_39); //, $this->json["width"], $this->json["height"]);  // widthFactor, totalHeight
         return "<img src='data:image/png;base64,{$barcodeImage}'><br>";
 
     }

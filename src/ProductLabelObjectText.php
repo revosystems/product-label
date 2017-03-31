@@ -14,11 +14,10 @@ class ProductLabelObjectText extends ProductLabelObject {
     }
 
     public function getAlign() {
-        if ( $this->json["align"]  == "start" || !$this->json["align"]) {
+        if ( !array_key_exists("align", $this->json) || $this->json["align"]  == "start" ) {
             return "text-align: left;";
         }
        return "text-align: {$this->json["align"]};";
-
     }
 
     public function getTextStyle() {
@@ -26,21 +25,21 @@ class ProductLabelObjectText extends ProductLabelObject {
     }
 
     public function getFontFamily() {
-        if ( $this->json["fontFamily"] ) {
+        if ( array_key_exists("fontFamily", $this->json) ) {
             return $this->json["fontFamily"];
         }
         return "Arial";
     }
 
     public function getFontSize() {
-        if ( $this->json["fontSize"] ) {
+        if ( array_key_exists("fontSize", $this->json) ) {
             return $this->json["fontSize"];
         }
         return "12px";
     }
 
     public function getBold() {
-        if ( $this->json["bold"] ) {
+        if ( array_key_exists("bold", $this->json) ) {
             return "font-weight: bold;";
         }
         return "";
