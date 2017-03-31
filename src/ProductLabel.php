@@ -1,69 +1,88 @@
 <?php
 
-namespace RevoSystems\ProductLabel
+namespace RevoSystems\ProductLabel;
 
 
 class ProductLabel {
+    const PAPER_WIDTH = 210.0;
+    const PAPER_HEIGHT = 297.0;
 
-	public function render($json, $values, $time=1, $skip=0) {
-		
-	    $self->json   = $json;
-	    $self->values = $values;
 
-	    $mCurrentX   = 0;
-	    $mCurrentY   = 0;
-	    $final = "<html><head><style>@page{size:A4;margin:0;}@media print{html,body{width:%@mm;height:%@mm;}}</style><head></head><body>"; //, PAPER_WIDTH, PAPER_HEIGHT);
+    public function render($json, $values, $times = 1, $skip = 0) {
+	    $this->json   = $json;
+	    $this->values = $values;
+
+	    $this->mCurrentX   = 0;
+	    $this->mCurrentY   = 0;
+	    $final = "<html><head><style>@page{size:A4;margin:0;}@media print{html,body{width:"
+            .static::PAPER_WIDTH
+            .";height:"
+            .static::PAPER_HEIGHT.
+            "mm;}}</style><head></head><body>";
 	    $times += $skip;
     
-	    for(int $i = 0; $i < $times; i++){
-        	if ($skip <= i) {
-        		//final = [final append:str(@"<div style='%@ outline:1px solid black;'>%@</div>", self.getBoxSizeStyle, self.getObjects)];
-	        	//$final = [final append:str(@"<div style='%@'>%@</div>", self.getBoxSizeStyle, self.getObjects)];
-			$final = $final . "<div style='%@'>%@</div>"	;
+	    for($i = 0; $i < $times; $i++) {
+        	if ($skip <= $i) {
+	        	$final .= "<div style='" . $this.getBoxSizeStyle() . " outline:1px solid black;'>" . $this.getObjects() . "</div>";
+//	        	$final .= "<div style='" . $this.getBoxSizeStyle() . "'>" . $this.getObjects() . "</div>";
 	        }
-        
         	$this->calculateNextLabelPosition();
-        
 	    }
-	    return $final; //[final append:@"</body></html>"];
+	    return "{$final}</body></html>";
 	}
+
+    public function getBoxSizeStyle() {
+        $boxSizes = $this->getBoxSizes();
+        return "position: absolute; left: {$this->mCurrentX}mm; top: {$this->mCurrentY}mm; width: {$boxSizes["width"]}mm; height: {$boxSizes["height"]}mm;";
+	}
+
+    public function getBoxSizes() {
+        $paper =  $this->papers[$this->json["paper"]];
+        $height = $paper["height"];
+        $width  = $paper["width"];
+
+
+        if ([$this->json["orientation"]  == "Portrait"]) {
+            return ["width"=> $height, "height"=> $width];
+        }
+        return ["width" => $width, "height" => $height];
+	}
+
+    public function papers() {
+        return [
+            "1274"  => ["width" => 106.0,   "height" => 36.68 ],  //105  37.0
+            "1284"  => ["width" => 53.0,    "height" => 20.96 ],  //52.5 21.2
+            "1286"  => ["width" => 53.0,    "height" => 29.34 ],  //52.5 29.7
+        ];
+	}
+
+    public function getObjects() {
+        return array_reduce($this->json["objects"], function ($carry, $object) {
+            return "{$carry}{$this->getObject($object)}";
+        }, $carry = "");
+    }
+
+    public function getObject($object) {
+        $labelObject = new ProductLabelObject($this->availableObjectClasses[$object["type"]]);
+        return $labelObject->render($object, $this->values);
+    }
+
+    public function availableObjectClasses() {
+        return [
+            "text"         => RVProductLabelObjectText::class,
+            "value"        => RVProductLabelObjectValue::class,
+            "barcode"      => RVProductLabelObjectBarcode::class,
+            "valueBarcode" => RVProductLabelObjectValueBarcode::class,
+        ];
+    }
+
+    public function calculateNextLabelPosition() {
+        $boxSizes = $this->getBoxSizes;
+        $this->mCurrentX += $boxSizes["width"];
+        if ($this->mCurrentX + $boxSizes["width"] > static::PAPER_WIDTH+20) {
+            $this->mCurrentX = 0;
+            $this->mCurrentY += $boxSizes["height"];
+        }
+
+    }
 }
-
-//-(NSString*) getBoxSizeStyle {
-//    NSDictionary* boxSizes = self.getBoxSizes;
-    
-//    return str(@"position: absolute; left: %fmm; top: %fmm; width: %@mm; height: %@mm;", mCurrentX, mCurrentY, boxSizes[@"width"], boxSizes[@"height"]);
-    
-//}
-
-//-(NSDictionary*) getBoxSizes {
-//    NSDictionary* paper =  self.papers[self.json[@"paper"]];
-//    NSNumber* height = paper[@"height"];
-//    NSNumber* width  = paper[@"width"];
-    
-    
-//    if ([self.json[@"orientation"] isEqual:@"Portrait"]) {
-//        return @{@"width": height, @"height": width};
-//    }
-//    return @{@"width": width, @"height": height};
-//}
-
-//-(NSDictionary*)papers{
-//    return @{
-//             @"1274"                        : @{@"width": @(106.0), @"height": @(36.68) },  //105  37.0
-//             @"1284"                        : @{@"width": @(53.0),  @"height": @(20.96) },  //52.5 21.2
-//             @"1286"                        : @{@"width": @(53.0),  @"height": @(29.34) },  //52.5 29.7
-//             };
-//}
-
-//-(NSString*) getObjects {
-//    return [self.json[@"objects"] reduce:^id(NSString* carry, NSDictionary* object) {
-//        return str(@"%@%@", carry, [self getObject:object]);
-//    } carry:@""];
-//}
-
-//-(NSString*)getObject:(NSDictionary*)object{
-//    RVProductLabelObject* labelObject = [self.availableObjectClasses[object[@"type"]] new];
-//    return [labelObject render:object values:self.values];
-//}
-
