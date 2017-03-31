@@ -2,6 +2,7 @@
 
 namespace RevoSystems\ProductLabel;
 
+use Dompdf\Dompdf;
 
 class ProductLabel {
     const PAPER_WIDTH = 210.0;
@@ -15,6 +16,15 @@ class ProductLabel {
         $productLabel = new ProductLabel();
         $productLabel->json = $param;
         return $productLabel;
+    }
+
+    public function pdf($values = [], $times = 1, $skip = 0) {
+        $html = $this->render($values, $times, $skip);
+        $pdf = new Dompdf();
+        $pdf->loadHtml($html);
+        $pdf->setPaper('A4', 'landscape');
+        $pdf->render();
+        $pdf->stream();
     }
 
     public function render($values = [], $times = 1, $skip = 0) {
