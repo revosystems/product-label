@@ -84,7 +84,9 @@ class ProductLabel {
     }
 
     public function getObject($object) {
-        $labelObject = new ProductLabelObject($this->availableObjectClasses()[$object["type"]]);
+        $labelObject = $this->availableObjectClasses()[$object["type"]];
+        $labelObject = new $labelObject;
+//        $labelObject = new ProductLabelObject($this->availableObjectClasses()[$object["type"]]);
         return $labelObject->render($object, $this->values);
     }
 
