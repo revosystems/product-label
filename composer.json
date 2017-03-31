@@ -1,0 +1,18 @@
+{
+    "name": "revosystems/label-printer",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Pau Benet Prat",
+            "email": "pau@revo.works"
+        }
+    ],
+    "autoload": {
+        "psr-4":
+        {
+	       "RevoSystems\\ProductLabel\\": "src"
+        }
+    },
+    "minimum-stability": "dev",
+    "require": {}
+}
