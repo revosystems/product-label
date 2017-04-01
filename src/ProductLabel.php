@@ -50,8 +50,9 @@ class ProductLabel {
     }
 
     public function getHtmlHeader() {
+//        teacher {  size: A4 portrait;  margin: 2cm;}.teacherPage {   page: teacher;   page-break-after: always;}                @page{size:A4;margin:0;}@media print{html,body{width:" . static::PAPER_WIDTH . ";height:". static::PAPER_HEIGHT. "mm;}}
         return "<html><head><style>
-                @page{size:A4;margin:0;}@media print{html,body{width:" . static::PAPER_WIDTH . ";height:". static::PAPER_HEIGHT. "mm;}}
+                @page{margin:0;}
                 </style><head></head><body style='width: ". static::PAPER_WIDTH ."mm'>";
     }
 
@@ -74,7 +75,7 @@ class ProductLabel {
     public function papers() {
         return [
             "1274"  => ["width" => 106.0,   "height" => 36.68 ],  //105  37.0
-            "1284"  => ["width" => 53.0,    "height" => 20.53 ],  //52.5 21.2
+            "1284"  => ["width" => 53.0,    "height" => 21.2 ],  //52.5 21.2
 //            "1284"  => ["width" => 53.0,    "height" => 20.96 ],  //52.5 21.2
             "1286"  => ["width" => 53.0,    "height" => 29.34 ],  //52.5 29.7
         ];
