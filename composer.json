@@ -15,7 +15,6 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "picqer/php-barcode-generator": "^0.2.1",
-        "laravel/laravel": "^5.4"
+        "picqer/php-barcode-generator": "^0.2.1"
     }
 }
