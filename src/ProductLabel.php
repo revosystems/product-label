@@ -2,16 +2,12 @@
 
 namespace RevoSystems\ProductLabel;
 
-use Dompdf\Dompdf;
 
 class ProductLabel {
-    const PAPER_WIDTH = 210.0;
-    const PAPER_HEIGHT = 297.0;
     private $json;
     private $values;
     private $mCurrentX;
     private $mCurrentY;
-    private $currentPage = 1;
 
     public static function make($param) {
         $productLabel = new ProductLabel();
@@ -19,40 +15,22 @@ class ProductLabel {
         return $productLabel;
     }
 
-    public function pdf($values = [], $times = 1, $skip = 0) {
-        $html = $this->render($values, $times, $skip);
-        $this->renderPdf($html);
-    }
-
     public function render($values = [], $times = 1, $skip = 0) {
         $this->values = $values;
 
         $this->mCurrentX   = 0;
         $this->mCurrentY   = 0;
-        $final = $this->getHtmlHeader();
         $times += $skip;
+        $final = '<html><body style="width: 210mm;">';
 
         for($i = 0; $i < $times; $i++) {
-//            if ($this->mCurrentY+5 > static::PAPER_HEIGHT*$this->currentPage) {
-//                $this->currentPage += 1;
-//                $final .= "</div><div style='margin-top: 297mm'>";
-//            }
             if ($skip <= $i) {
-                $final .= "<div style='" . $this->getBoxSizeStyle() . " outline:1px solid black;'>" . $this->getObjects() . "</div>";
-//                $final .= "<div style='" . $this->getBoxSizeStyle() . "'>" . $this->getObjects() . "</div>";
+                $final  .= "<div style='" . $this->getBoxSizeStyle() . ";'>" . $this->getObjects() . "</div>"; // . " outline:1px solid black"
+
             }
             $this->calculateNextLabelPosition();
         }
-        return "{$final}</div></body></html>";
-    }
-
-    public function getHtmlHeader() {
-//        teacher {  size: A4 portrait;  margin: 2cm;}.teacherPage {   page: teacher;   page-break-after: always;}                @page{size:A4;margin:0;}@media print{html,body{width:" . static::PAPER_WIDTH . ";height:". static::PAPER_HEIGHT. "mm;}}
-        return "<html><head>"
-//            .'<meta http-equiv=\"Content-Type\" content=\"text/html;charset=utf-8\">'
-            .'<style>'
-                ."@page{margin:0;}"
-                ."</style><head></head><body style='width: " . static::PAPER_WIDTH . "mm'><div>";
+        return $final . '</body></html>';
     }
 
     public function getBoxSizeStyle() {
@@ -73,10 +51,9 @@ class ProductLabel {
 
     public function papers() {
         return [
-            "1274"  => ["width" => 106.0,   "height" => 36.68 ],  //105  37.0
-            "1284"  => ["width" => 53.0,    "height" => 21.2 ],  //52.5 21.2
-//            "1284"  => ["width" => 53.0,    "height" => 20.96 ],  //52.5 21.2
-            "1286"  => ["width" => 53.0,    "height" => 29.34 ],  //52.5 29.7
+            "1274"  => ["width" => 105.0,   "height" => 37.130 ],  //105  37.0
+            "1284"  => ["width" => 52.5,    "height" => 21.216 ],  //52.5 21.2
+            "1286"  => ["width" => 52.5,    "height" => 29.706 ],  //52.5 29.7
         ];
     }
 
@@ -104,17 +81,9 @@ class ProductLabel {
     public function calculateNextLabelPosition() {
         $boxSizes = $this->getBoxSizes();
         $this->mCurrentX += $boxSizes["width"];
-        if ($this->mCurrentX + $boxSizes["width"] > static::PAPER_WIDTH+20) {
+        if ($this->mCurrentX + $boxSizes["width"] > 210.0+20) {
             $this->mCurrentX = 0;
             $this->mCurrentY += $boxSizes["height"];
         }
-    }
-
-    private function renderPdf($html) {
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml($html);
-        $dompdf->setPaper('A4');
-        $dompdf->render();
-        $dompdf->stream();
     }
 }
