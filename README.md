@@ -1,6 +1,22 @@
 # ProductLabel package
 ## RevoSystems package to print labels from Revo Retail admin.
-Recommended usage
+### Installation
+Modify composer json to include productLabel repository
+
+```
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:revosystems/productLabel.git"
+        }
+    ],
+```
+Install productLabel with composer.
+```
+    composer require revosystems/productLabel
+```
+
+### Recommended usage
 
 ```
     $html = ProductLabel::make($label)->render($values, $times, $skip);
