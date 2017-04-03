@@ -16,6 +16,6 @@
     "minimum-stability": "dev",
     "require": {
         "picqer/php-barcode-generator": "^0.2.1",
-        "barryvdh/laravel-snappy": "^0.3.3"
+        "dompdf/dompdf": "^0.8.0"
     }
 }

@@ -2,7 +2,7 @@
 
 namespace RevoSystems\ProductLabel;
 
-use Barryvdh\Snappy\Facades\SnappyPdf;
+use Dompdf\Dompdf;
 
 class ProductLabel {
     const PAPER_WIDTH = 210.0;
@@ -20,15 +20,11 @@ class ProductLabel {
 
     public function pdf($values = [], $times = 1, $skip = 0) {
         $html = $this->render($values, $times, $skip);
-        SnappyPdf::loadHtml($html)
-            ->setPaper('a4')
-//            ->setOrientation('landscape')
-            ->setOrientation('portrait')
-            ->setOption('page-width', '210')
-            ->setOption('margin-top', 0)->setOption('margin-bottom', 0)
-            ->setOption('margin-left', 0)->setOption('margin-right', 0)
-            ->save(uniqid()."myLabel1.pdf");
-//        SnappyPdf::loadHtml($html)->setPaper('a4')->setOrientation('landscape')->setOption('margin-bottom', 0)->save(uniqid().'myLabel1.pdf');
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4');
+        $dompdf->render();
+        $dompdf->stream();
     }
 
     public function render($values = [], $times = 1, $skip = 0) {
