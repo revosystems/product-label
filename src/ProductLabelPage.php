@@ -4,27 +4,30 @@ namespace RevoSystems\ProductLabel;
 
 
 class ProductLabelPage {
+    private $label;
     private $products;
     private $skip;
     private $mCurrentX = 0;
     private $mCurrentY = 0;
 
-    public static function make($products) {
+    public static function make($label) {
         $productLabelPage = new ProductLabelPage();
-        $productLabelPage->products = $products;
+        $productLabelPage->label = $label;
         return $productLabelPage;
     }
 
-    public function render($skip = 0) {
+    public function render($products, $skip = 0) {
+        $this->products = $products;
         $this->skip = $skip;
-        $html = array_reduce($this->products, function($carry, $product) {
+        $labelsHtml = array_reduce($this->products, function($carry, $product) {
             return $carry . $this->renderLabel($product);
-        }, '<html><body style="width: 210mm;">');
-        return $html . '</body></html>';
+        }, '');
+
+        return '<html><body style="width: 210mm;">'. $labelsHtml . '</body></html>';
     }
 
     public function renderLabel($product) {
-        $productLabel = ProductLabel::make($product["label"], $this->mCurrentX, $this->mCurrentY);
+        $productLabel = ProductLabel::make($this->label, $this->mCurrentX, $this->mCurrentY);
         $htmlLabels = $productLabel->render($product["values"], $product["times"], $this->skip);
         $this->mCurrentX = $productLabel->mCurrentX;
         $this->mCurrentY = $productLabel->mCurrentY;
