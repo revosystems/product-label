@@ -4,28 +4,32 @@
 Modify composer json to include productLabel repository
 
 ```
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "git@github.com:revosystems/productLabel.git"
-        }
-    ],
+"repositories": [
+    {
+        "type": "vcs",
+        "url": "git@github.com:revosystems/productLabel.git"
+    }
+],
 ```
 Install productLabel with composer.
 ```
-    composer require revosystems/productLabel
+composer require revosystems/productLabel
 ```
 
 ### Recommended usage
 
 ```
-    $html = ProductLabel::make($label)->render($values, $times, $skip);
-    $pdf = SnappyPdf::loadHtml($html)
-        ->setOption('zoom', 1.5636)    // Avoid html resize when printing.
-        ->setOption('margin-top', 0)->setOption('margin-bottom', 0)
-        ->setOption('margin-left', 0)->setOption('margin-right', 0);
-    return $pdf->inline('invoice.pdf');
+// Pass a json decoded label and products list to de LabelPage renderer.
+$html = ProductLabelPage::make($label)->render($products);
+
+// Now we can use any HtmlToPDF library to render it.
+$pdf = SnappyPdf::loadHtml($html)
+    ->setOption('zoom', 1.5636)    // Avoid html resize when printing.
+    ->setOption('margin-top', 0)->setOption('margin-bottom', 0)
+    ->setOption('margin-left', 0)->setOption('margin-right', 0);
+return $pdf->inline('invoice.pdf');
 ```
+
 Available papers:
 ```
 [
