@@ -13,7 +13,7 @@ class ProductLabel {
         $productLabel           = new ProductLabel();
         $productLabel->json     = $label;
         $productLabel->values   = $values;
-        $productLabel->getBoxSizes();
+        $productLabel->initBoxSizes();
         return $productLabel;
     }
 
@@ -25,11 +25,10 @@ class ProductLabel {
         return $this->height;
     }
 
-    public function getBoxSizes() {
+    public function initBoxSizes() {
         $papers = require('labelPapers.php');
-        $paper =  $papers[$this->json["paper"]];
-        $this->height = $paper["height"];
-        $this->width  = $paper["width"];
+        $this->height = $papers[$this->json["paper"]]["height"];
+        $this->width  = $papers[$this->json["paper"]]["width"];
 
         if ($this->json["orientation"]  == "Portrait") {
             $this->toggleOrientation();
