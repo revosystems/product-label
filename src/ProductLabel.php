@@ -25,8 +25,7 @@ class ProductLabel {
 
         for($i = 0; $i < $times; $i++) {
             if ($skip <= $i) {
-                $final  .= "<div style='" . $this->getBoxSizeStyle() . ";'>" . $this->getObjects() . "</div>"; // . " outline:1px solid black"
-
+                $final  .= "<div style='" . $this->getBoxSizeStyle() . "'>" . $this->getObjects() . "</div>"; // . " outline:1px solid black"
             }
             $this->calculateNextLabelPosition();
         }
@@ -51,7 +50,7 @@ class ProductLabel {
 
     public function papers() {
         return [
-            "1274"  => ["width" => 105.0,   "height" => 37.130 ],  //105  37.0
+            "1274"  => ["width" => 105.0,   "height" => 37.114 ],  //105  37.0
             "1284"  => ["width" => 52.5,    "height" => 21.216 ],  //52.5 21.2
             "1286"  => ["width" => 52.5,    "height" => 29.706 ],  //52.5 29.7
         ];
