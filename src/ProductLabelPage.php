@@ -27,11 +27,30 @@ class ProductLabelPage {
     }
 
     public function renderLabel($product) {
-        $productLabel = ProductLabel::make($this->label, $this->mCurrentX, $this->mCurrentY);
-        $htmlLabels = $productLabel->render($product["values"], $product["times"], $this->skip);
-        $this->mCurrentX = $productLabel->mCurrentX;
-        $this->mCurrentY = $productLabel->mCurrentY;
+        $times  = $product["times"];
+        $times += $this->skip;
+
+        $productLabel = ProductLabel::make($this->label, $product["values"]);
+        for($i = 0, $htmlLabels = ''; $i < $times; $i++) {
+            if ($this->skip <= $i) {
+                $htmlLabels  .= "<div style='" . $this->getBoxSizeStyle($productLabel) . "'>" . $productLabel->getObjects() . "</div>"; // . " outline:1px solid black"
+            }
+            $this->moveCursorToNextLabel($productLabel);
+        }
         $this->skip = 0;
         return $htmlLabels;
     }
+
+    public function getBoxSizeStyle($productLabel) {
+        return "position: absolute; left: {$this->mCurrentX}mm; top: {$this->mCurrentY}mm; width: {$productLabel->getWidth()}mm; height: {$productLabel->getHeight()}mm;";
+    }
+
+    public function moveCursorToNextLabel($productLabel) {
+        $this->mCurrentX += $productLabel->getWidth();
+        if ($this->mCurrentX + $productLabel->getWidth() > 210.0+20) {
+            $this->mCurrentX = 0;
+            $this->mCurrentY += $productLabel->getHeight();
+        }
+    }
+
 }
