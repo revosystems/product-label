@@ -6,30 +6,28 @@ namespace RevoSystems\ProductLabel;
 class ProductLabel {
     private $json;
     private $values;
-    private $mCurrentX;
-    private $mCurrentY;
+    public $mCurrentX;
+    public $mCurrentY;
 
-    public static function make($param) {
+    public static function make($label, $mCurrentX = 0, $mCurrentY = 0) {
         $productLabel = new ProductLabel();
-        $productLabel->json = $param;
+        $productLabel->json = $label;
+        $productLabel->mCurrentX = $mCurrentX;
+        $productLabel->mCurrentY = $mCurrentY;
         return $productLabel;
     }
 
     public function render($values = [], $times = 1, $skip = 0) {
         $this->values = $values;
-
-        $this->mCurrentX   = 0;
-        $this->mCurrentY   = 0;
         $times += $skip;
-        $final = '<html><body style="width: 210mm;">';
 
-        for($i = 0; $i < $times; $i++) {
+        for($i = 0, $html = ''; $i < $times; $i++) {
             if ($skip <= $i) {
-                $final  .= "<div style='" . $this->getBoxSizeStyle() . "'>" . $this->getObjects() . "</div>"; // . " outline:1px solid black"
+                $html  .= "<div style='" . $this->getBoxSizeStyle() . "'>" . $this->getObjects() . "</div>"; // . " outline:1px solid black"
             }
             $this->calculateNextLabelPosition();
         }
-        return $final . '</body></html>';
+        return $html;
     }
 
     public function getBoxSizeStyle() {
