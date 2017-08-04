@@ -13,7 +13,7 @@ class ProductLabelObjectBarcode extends ProductLabelObjectText {
     public function getBarcode($text) {
         $generator = new BarcodeGeneratorPNG();
         $barcodeImage = $generator->getBarcode($text, $generator::TYPE_CODE_39, 1 , $this->json["height"]);
-        return '<img src="data:image/png;base64,' . base64_encode($barcodeImage) . '">';
+        return '<img style="height:' . $this->getSize() . ';" src="data:image/png;base64,' . base64_encode($barcodeImage) . '">';
     }
 
     public function getTextStyle() {
