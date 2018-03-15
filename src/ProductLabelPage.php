@@ -23,7 +23,7 @@ class ProductLabelPage {
             return $carry . $this->renderLabel($product);
         }, '');
 
-        return '<html><body style="width: 210mm;">'. $labelsHtml . '</body></html>';
+        return '<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body style="width: 210mm;">'. $labelsHtml . '</body></html>';
     }
 
     public function renderLabel($product) {
