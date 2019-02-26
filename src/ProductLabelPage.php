@@ -41,7 +41,7 @@ class ProductLabelPage
             }
             $this->moveCursorToNextLabel();
         }
-        $this->skip = 0;
+        $this->skip = $times;
         return $htmlLabels;
     }
 
