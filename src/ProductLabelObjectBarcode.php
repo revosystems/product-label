@@ -15,7 +15,7 @@ class ProductLabelObjectBarcode extends ProductLabelObjectText
     {
         $generator    = new BarcodeGeneratorPNG();
         $barcodeImage = $generator->getBarcode($text, $generator::TYPE_CODE_39, 1, $this->json['height']);
-        return '<img style="height:' . $this->getSize() . ';" src="data:image/png;base64,' . base64_encode($barcodeImage) . '">';
+        return '<img style="height:' . $this->getSize() . ';width:' . $this->json['width'] . 'px;" src="data:image/png;base64,' . base64_encode($barcodeImage) . '">';
     }
 
     public function getTextStyle()
