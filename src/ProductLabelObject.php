@@ -6,11 +6,13 @@ class ProductLabelObject
 {
     public $json;
     public $values;
-    
-    public function render($json, $values)
+    public $promotion;
+
+    public function render($json, $values, $promotion = null)
     {
         $this->json   = $json;
         $this->values = $values;
+        $this->promotion = $promotion;
         return "<div style='{$this->getBoxStyle()}'>{$this->getBody()}</div>";
     }
 

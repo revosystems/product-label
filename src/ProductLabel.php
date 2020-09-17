@@ -10,12 +10,14 @@ class ProductLabel
     private $height;
     private $marginW;
     private $marginH;
+    private $promotion;
 
-    public static function make($label, $values)
+    public static function make($label, $values, $promotion = null)
     {
         $productLabel           = new ProductLabel();
         $productLabel->json     = $label;
         $productLabel->values   = $values;
+        $productLabel->promotion = $promotion;
         $productLabel->initBoxSizes();
         return $productLabel;
     }
@@ -74,6 +76,7 @@ class ProductLabel
             'value'        => ProductLabelObjectValue::class,
             'barcode'      => ProductLabelObjectBarcode::class,
             'valueBarcode' => ProductLabelObjectValueBarcode::class,
+            'valuePromotion' => ProductLabelObjectValuePromotion::class,
         ];
     }
 
