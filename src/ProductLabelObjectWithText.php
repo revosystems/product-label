@@ -2,7 +2,7 @@
 
 namespace RevoSystems\ProductLabel;
 
-class ProductLabelObjectText extends ProductLabelObject
+class ProductLabelObjectWithText extends ProductLabelObject
 {
     public function getBody()
     {

@@ -10,14 +10,12 @@ class ProductLabel
     private $height;
     private $marginW;
     private $marginH;
-    private $promotion;
 
-    public static function make($label, $values, $promotion = null)
+    public static function make($label, $values)
     {
         $productLabel           = new ProductLabel();
         $productLabel->json     = $label;
         $productLabel->values   = $values;
-        $productLabel->promotion = $promotion;
         $productLabel->initBoxSizes();
         return $productLabel;
     }
@@ -72,11 +70,11 @@ class ProductLabel
     public function availableObjectClasses()
     {
         return [
-            'text'         => ProductLabelObjectText::class,
-            'value'        => ProductLabelObjectValue::class,
-            'barcode'      => ProductLabelObjectBarcode::class,
-            'valueBarcode' => ProductLabelObjectValueBarcode::class,
-            'valuePromotion' => ProductLabelObjectValuePromotion::class,
+            'text'          => ProductLabelObjectWithText::class,
+            'value'         => ProductLabelObjectWithValue::class,
+            'barcode'       => ProductLabelObjectWithBarcode::class,
+            'keyValue'      => ProductLabelObjectWithKeyValue::class,
+            'valueBarcode'  => ProductLabelObjectValueBarcode::class,
         ];
     }
 

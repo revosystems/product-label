@@ -33,7 +33,7 @@ class ProductLabelPage
         $times  = $product['times'];
         $times += $this->skip;
 
-        $this->productLabel = ProductLabel::make($this->label, $product['values'], $product['promotion'] ?? null);
+        $this->productLabel = ProductLabel::make($this->label, $product['values']);
         $this->setMargins();
         for ($i = 0, $htmlLabels = $this->getSideMargin(); $i < $times; $i++) {
             if ($this->skip <= $i) {
