@@ -70,10 +70,11 @@ class ProductLabel
     public function availableObjectClasses()
     {
         return [
-            'text'         => ProductLabelObjectText::class,
-            'value'        => ProductLabelObjectValue::class,
-            'barcode'      => ProductLabelObjectBarcode::class,
-            'valueBarcode' => ProductLabelObjectValueBarcode::class,
+            'text'          => ProductLabelObjectWithText::class,
+            'value'         => ProductLabelObjectWithValue::class,
+            'barcode'       => ProductLabelObjectWithBarcode::class,
+            'keyValue'      => ProductLabelObjectWithKeyValue::class,
+            'valueBarcode'  => ProductLabelObjectValueBarcode::class,
         ];
     }
 

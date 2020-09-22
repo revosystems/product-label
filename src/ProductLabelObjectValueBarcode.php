@@ -2,7 +2,7 @@
 
 namespace RevoSystems\ProductLabel;
 
-class ProductLabelObjectValueBarcode extends ProductLabelObjectBarcode
+class ProductLabelObjectValueBarcode extends ProductLabelObjectWithBarcode
 {
     public function getBody()
     {

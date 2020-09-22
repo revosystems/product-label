@@ -4,7 +4,7 @@ namespace RevoSystems\ProductLabel;
 
 use Picqer\Barcode\BarcodeGeneratorPNG;
 
-class ProductLabelObjectBarcode extends ProductLabelObjectText
+class ProductLabelObjectWithBarcode extends ProductLabelObjectWithText
 {
     public function getBody()
     {
