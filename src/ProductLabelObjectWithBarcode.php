@@ -11,10 +11,10 @@ class ProductLabelObjectWithBarcode extends ProductLabelObjectWithText
         return $this->getBarcode($this->json['text']);
     }
 
-    public function getBarcode($text)
+    public function getBarcode(string $text)
     {
         $generator    = new BarcodeGeneratorPNG();
-        $barcodeImage = $generator->getBarcode($text, $generator::TYPE_CODE_39, 1, $this->json['height']);
+        $barcodeImage = $generator->getBarcode($text, $generator::TYPE_CODE_39E, 1, $this->json['height']);
         return '<img style="height:' . $this->getSize() . ';width:' . $this->json['width'] . 'px;" src="data:image/png;base64,' . base64_encode($barcodeImage) . '">';
     }
 
